@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GlanceTooltipComponent } from './glance-tooltip.component';
+import { GlanceTooltipComponent } from './g-tooltip.component';
 
 describe('GlanceTooltipComponent', () => {
   let component: GlanceTooltipComponent;

@@ -1,0 +1,26 @@
+<div
+  class="inline-flex"
+  aria-describedby="tooltip"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  (blur)="onMouseLeave()"
+  (focus)="onMouseEnter()"
+  (click)="onToggleClick(); $event.stopPropagation()"
+  #toggle
+>
+  <ng-content select="[toggle]"></ng-content>
+</div>
+
+<div
+  #popper
+  role="tooltip"
+  class="bg-neutral-900 text-white rounded-lg w-max absolute top-0 left-0 text-sm hidden select-none"
+>
+  <ng-content select="[tooltip]"></ng-content>
+  @if (withArrow()) {
+  <div
+    #arrow
+    class="absolute w-2 h-2 bg-neutral-900 rotate-45 rounded-sm"
+  ></div>
+  }
+</div>

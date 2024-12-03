@@ -1,1 +1,1 @@
-export * from './lib/glance-tooltip/glance-tooltip.component';
+export * from './lib/g-tooltip/g-tooltip.component';
