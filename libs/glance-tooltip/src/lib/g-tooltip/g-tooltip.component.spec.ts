@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { GlanceTooltipComponent } from './g-tooltip.component';
+import { GTooltipComponent } from './g-tooltip.component';
 
-describe('GlanceTooltipComponent', () => {
-  let component: GlanceTooltipComponent;
-  let fixture: ComponentFixture<GlanceTooltipComponent>;
+describe('GTooltipComponent', () => {
+  let component: GTooltipComponent;
+  let fixture: ComponentFixture<GTooltipComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GlanceTooltipComponent],
+      imports: [GTooltipComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(GlanceTooltipComponent);
+    fixture = TestBed.createComponent(GTooltipComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
