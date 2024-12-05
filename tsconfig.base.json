@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@glace-ui/tooltip": ["libs/glance-tooltip/src/index.ts"]
+      "@glance-ui/dropdown": ["libs/glance-dropdown/src/index.ts"],
+      "@glance-ui/tooltip": ["libs/glance-tooltip/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
