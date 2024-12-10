@@ -1,1 +1,35 @@
-<p>glance-dropdown works!</p>
+<button #toggle (click)="onToggleClick(); $event.stopPropagation()" class="p-0">
+  <ng-content select="[toggle]"></ng-content>
+</button>
+
+<div
+  #popper
+  role="tooltip"
+  class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 w-[200px]"
+>
+  @for (group of items(); track group) {
+  <ul class="border-b border-neutral-200 last:border-b-0 p-1">
+    @for (item of group; track item.label) {
+    <li
+      class="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-neutral-100 cursor-pointer"
+      [ngClass]="{
+        'hover:bg-red-50': item.variant === 'danger'
+      }"
+    >
+      <span
+        [class]="item.icon + ' text-gray-600 h-4 w-4'"
+        [ngClass]="{ 'text-red-500': item.variant === 'danger' }"
+      ></span>
+      <span
+        class="select-none"
+        [ngClass]="{
+          'text-red-500': item.variant === 'danger',
+          'text-gray-800': item.variant !== 'danger'
+        }"
+        >{{ item.label }}</span
+      >
+    </li>
+    }
+  </ul>
+  }
+</div>
