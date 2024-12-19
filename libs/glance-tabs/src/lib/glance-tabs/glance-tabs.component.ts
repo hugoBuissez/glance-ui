@@ -13,6 +13,7 @@ export interface GlanceTab {
   label: string;
   icon?: string;
   disabled?: boolean;
+  badge?: string;
 }
 
 @Component({
@@ -22,13 +23,7 @@ export interface GlanceTab {
   templateUrl: './glance-tabs.component.html',
 })
 export class GlanceTabsComponent {
-  tabs = input<GlanceTab[]>([
-    { label: 'Advertised Products', icon: 'icon-[lucide--box]' },
-    { label: 'Strategies', icon: 'icon-[lucide--lightbulb]' },
-    { label: 'Stats', icon: 'icon-[lucide--chart-line]' },
-    { label: 'Activities', icon: 'icon-[lucide--clock]' },
-    { label: 'More', icon: 'icon-[lucide--more-horizontal]' },
-  ]);
+  tabs = input<GlanceTab[]>([]);
 
   tabRefs = viewChildren<ElementRef>('tab');
   activeTab = model<number>(0);

@@ -1,5 +1,5 @@
 <div
-  class="flex flew-row relative pb-2 gap-2 max-w-full overflow-x-auto w-full"
+  class="flex flew-row relative pb-1.5 gap-2 max-w-full overflow-x-auto w-full"
 >
   <span class="absolute bottom-0 h-[1px] w-full z-5 bg-gray-200"></span>
   <span
@@ -7,27 +7,34 @@
     [style.left.px]="underlineLeft()"
     [style.width.px]="underlineWidth()"
   >
-    <span class="h-full w-full bg-teal-500"></span>
+    <span class="h-full w-full bg-indigo-500"></span>
   </span>
 
   @for (tab of tabs(); track tab.label) {
   <button
-    class="my-auto shrink-0 cursor-pointer select-none rounded-md px-2 py-1 text-center text-gray-500 text-sm hover:bg-gray-100 font-medium duration-100"
+    [disabled]="tab.disabled"
+    class="my-auto shrink-0 cursor-pointer select-none rounded-md px-2 py-1 text-center text-gray-500 text-sm font-medium duration-100 disabled:opacity-50 disabled:cursor-not-allowed"
     [ngClass]="{
-      'hover:bg-teal-400/10': $index === activeTab(),
-      'hover:text-gray-700': $index !== activeTab()
+      'hover:bg-indigo-400/10': $index === activeTab() && !tab.disabled,
+      'hover:text-gray-700 hover:bg-gray-100':
+        $index !== activeTab() && !tab.disabled
     }"
     (click)="activeTab.set($index)"
     #tab
   >
     <div
       class="flex items-center gap-x-2"
-      [ngClass]="{ 'text-teal-500': $index === activeTab() }"
+      [ngClass]="{ 'text-indigo-500': $index === activeTab() }"
     >
       @if (tab.icon) {
       <span [class]="tab.icon + ' h-4 w-4'"></span>
       }
       {{ tab.label }}
+      @if (tab.badge) {
+      <span class="text-xs text-gray-400">
+        {{ tab.badge }}
+      </span>
+      }
     </div>
   </button>
   }
