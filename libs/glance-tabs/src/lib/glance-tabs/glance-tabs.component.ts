@@ -4,6 +4,8 @@ import {
   ElementRef,
   input,
   model,
+  OnInit,
+  output,
   signal,
   viewChildren,
 } from '@angular/core';
@@ -22,11 +24,13 @@ export interface GlanceTab {
   imports: [CommonModule, NgClass],
   templateUrl: './glance-tabs.component.html',
 })
-export class GlanceTabsComponent {
-  tabs = input<GlanceTab[]>([]);
-
+export class GlanceTabsComponent implements OnInit {
   tabRefs = viewChildren<ElementRef>('tab');
+
+  tabs = input<GlanceTab[]>([]);
   activeTab = model<number>(0);
+
+  onActiveTabChange = output<number>();
 
   underlineWidth = computed(() => {
     const currentTab = this.tabRefs()[this.activeTab()];
@@ -38,7 +42,12 @@ export class GlanceTabsComponent {
     return currentTab ? currentTab.nativeElement.offsetLeft : 0;
   });
 
+  ngOnInit() {
+    this.onActiveTabChange.emit(this.activeTab());
+  }
+
   onTabClick(index: number) {
     this.activeTab.set(index);
+    this.onActiveTabChange.emit(index);
   }
 }

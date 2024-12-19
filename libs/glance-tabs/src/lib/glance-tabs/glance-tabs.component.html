@@ -19,7 +19,7 @@
       'hover:text-gray-700 hover:bg-gray-100':
         $index !== activeTab() && !tab.disabled
     }"
-    (click)="activeTab.set($index)"
+    (click)="onTabClick($index)"
     #tab
   >
     <div
