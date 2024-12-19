@@ -1,0 +1,34 @@
+<div
+  class="flex flew-row relative pb-2 gap-2 max-w-full overflow-x-auto w-full"
+>
+  <span class="absolute bottom-0 h-[1px] w-full z-5 bg-gray-200"></span>
+  <span
+    class="absolute bottom-0 h-0.5 flex transition-all duration-300 z-10"
+    [style.left.px]="underlineLeft()"
+    [style.width.px]="underlineWidth()"
+  >
+    <span class="h-full w-full bg-teal-500"></span>
+  </span>
+
+  @for (tab of tabs(); track tab.label) {
+  <button
+    class="my-auto shrink-0 cursor-pointer select-none rounded-md px-2 py-1 text-center text-gray-500 text-sm hover:bg-gray-100 font-medium duration-100"
+    [ngClass]="{
+      'hover:bg-teal-400/10': $index === activeTab(),
+      'hover:text-gray-700': $index !== activeTab()
+    }"
+    (click)="activeTab.set($index)"
+    #tab
+  >
+    <div
+      class="flex items-center gap-x-2"
+      [ngClass]="{ 'text-teal-500': $index === activeTab() }"
+    >
+      @if (tab.icon) {
+      <span [class]="tab.icon + ' h-4 w-4'"></span>
+      }
+      {{ tab.label }}
+    </div>
+  </button>
+  }
+</div>
