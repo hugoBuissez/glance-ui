@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   input,
@@ -36,6 +37,9 @@ export class GTooltipComponent {
   mode = input<'hover' | 'click'>('click');
   placement = input<Placement>('top');
   withArrow = input(true);
+  delay = input(0);
+
+  computedDelay = computed(() => (this.mode() === 'hover' ? this.delay() : 0));
 
   private cleanup: (() => void) | undefined;
 
@@ -115,12 +119,14 @@ export class GTooltipComponent {
   }
 
   protected showPopper() {
-    this.onShow.emit();
-    animate(
-      this.popper.nativeElement,
-      { display: 'block', scale: [0.8, 1], opacity: 1 },
-      { duration: 0.1 }
-    );
+    setTimeout(() => {
+      this.onShow.emit();
+      animate(
+        this.popper.nativeElement,
+        { display: 'block', scale: [0.8, 1], opacity: 1 },
+        { duration: 0.1 }
+      );
+    }, this.computedDelay());
     this.cleanup = autoUpdate(
       this.toggle.nativeElement,
       this.popper.nativeElement,
