@@ -3,19 +3,19 @@
 >
   <span class="absolute bottom-0 h-[1px] w-full z-5 bg-gray-200"></span>
   <span
-    class="absolute bottom-0 h-0.5 flex transition-all duration-300 z-10"
+    class="absolute bottom-0 h-0.5 flex transition-all duration-200 z-10"
     [style.left.px]="underlineLeft()"
     [style.width.px]="underlineWidth()"
   >
-    <span class="h-full w-full bg-indigo-500"></span>
+    <span class="h-full w-full bg-primary-500"></span>
   </span>
 
   @for (tab of tabs(); track tab.label) {
   <button
     [disabled]="tab.disabled"
-    class="focus:outline-none focus:ring-2 focus:ring-indigo-300 my-auto shrink-0 cursor-pointer select-none rounded-md px-2 py-1 text-center text-gray-500 text-sm font-medium duration-100 disabled:opacity-50 disabled:cursor-not-allowed"
+    class="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 my-auto shrink-0 cursor-pointer select-none rounded-md px-2 py-1 text-center text-gray-500 text-sm font-medium duration-100 disabled:opacity-50 disabled:cursor-not-allowed"
     [ngClass]="{
-      'hover:bg-indigo-400/10': $index === activeTab() && !tab.disabled,
+      'hover:bg-primary-400/10': $index === activeTab() && !tab.disabled,
       'hover:text-gray-700 hover:bg-gray-100':
         $index !== activeTab() && !tab.disabled
     }"
@@ -24,7 +24,7 @@
   >
     <div
       class="flex items-center gap-x-2"
-      [ngClass]="{ 'text-indigo-500': $index === activeTab() }"
+      [ngClass]="{ 'text-primary-500': $index === activeTab() }"
     >
       @if (tab.icon) {
       <span [class]="tab.icon + ' h-4 w-4'"></span>
