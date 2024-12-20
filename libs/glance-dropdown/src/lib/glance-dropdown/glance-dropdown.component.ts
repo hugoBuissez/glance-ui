@@ -1,12 +1,16 @@
 import {
   Component,
+  contentChild,
   ElementRef,
   EventEmitter,
   input,
   Output,
+  signal,
+  TemplateRef,
+  viewChild,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import {
   Placement,
   computePosition,
@@ -22,13 +26,16 @@ export type GDropdownItem = {
   label: string;
   variant?: 'danger';
   icon?: string;
-  action?: () => void;
+  disabled?: boolean;
+  onClick?: () => void;
+  to?: string; // routerLink
+  href?: string; // anchor
 };
 
 @Component({
   selector: 'g-dropdown',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgTemplateOutlet],
   templateUrl: './glance-dropdown.component.html',
 })
 export class GDropdownComponent {
@@ -60,6 +67,11 @@ export class GDropdownComponent {
         }
       });
     }
+  }
+
+  protected onItemClick(item: GDropdownItem) {
+    if (item.disabled) return;
+    if (item.onClick) item.onClick();
   }
 
   protected update() {

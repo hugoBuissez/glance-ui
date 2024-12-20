@@ -5,15 +5,18 @@
 <div
   #popper
   role="tooltip"
-  class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 w-[200px]"
+  class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 w-[200px] z-50"
 >
   @for (group of items(); track group) {
   <ul class="border-b border-neutral-200 last:border-b-0 p-1">
     @for (item of group; track item.label) {
     <li
-      class="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-neutral-100 cursor-pointer"
+      (click)="item.disabled ? $event.stopPropagation() : item.onClick?.()"
+      class="flex items-center gap-2 rounded-md px-2 py-1.5"
       [ngClass]="{
-        'hover:bg-red-50': item.variant === 'danger'
+        'hover:bg-red-50': item.variant === 'danger' && !item.disabled,
+        'opacity-50 cursor-not-allowed': item.disabled,
+        'hover:bg-neutral-100 cursor-pointer': !item.disabled
       }"
     >
       <span
