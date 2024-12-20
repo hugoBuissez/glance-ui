@@ -10,8 +10,9 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
-    extend: {
-      primary: Colors.teal,
+    colors: {
+      ...Colors,
+      primary: Colors.indigo,
     },
   },
   plugins: [addDynamicIconSelectors()],

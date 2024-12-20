@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@glance-ui/dropdown": ["libs/glance-dropdown/src/index.ts"],
+      "@glance-ui/tabs": ["libs/glance-tabs/src/index.ts"],
       "@glance-ui/tooltip": ["libs/glance-tooltip/src/index.ts"]
     }
   },
