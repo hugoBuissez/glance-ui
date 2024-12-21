@@ -5,7 +5,8 @@
 <div
   #popper
   role="tooltip"
-  class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 w-[200px] z-50"
+  class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 z-50"
+  [ngStyle]="{ width: width() + 'px' }"
 >
   @for (group of items(); track group) {
   <ul class="border-b border-neutral-200 last:border-b-0 p-1">
