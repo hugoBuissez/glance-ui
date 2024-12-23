@@ -1,0 +1,160 @@
+<button #toggle (click)="onToggleClick(); $event.stopPropagation()" class="p-0">
+  <ng-content select="[toggle]"></ng-content>
+</button>
+
+<div
+  #popper
+  class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 z-50"
+  [ngStyle]="{ width: width() + 'px' }"
+>
+  <div class="p-2">
+    <div class="flex gap-4">
+      <div>
+        <div class="w-full flex justify-between items-center mb-1">
+          <button
+            class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
+            (click)="previousMonth()"
+          >
+            <span class="icon-[lucide--chevron-left]"></span>
+          </button>
+          <div class="flex justify-center items-center gap-2">
+            <span class="text-gray-800 font-medium">{{
+              formattedMonthLeft()
+            }}</span>
+            <span class="text-gray-800 font-medium">{{
+              formattedYearLeft()
+            }}</span>
+          </div>
+          <button
+            class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
+            (click)="nextMonth()"
+          >
+            <span class="icon-[lucide--chevron-right]"></span>
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr class="w-full">
+              @for (day of WEEK_DAYS; track $index) {
+              <th
+                class="h-8 w-8 text-gray-500 font-light inline-flex items-center justify-center"
+              >
+                {{ day }}
+              </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (week of currentWeeks(); track $index) {
+            <tr>
+              @for (day of week; track $index) {
+              <td
+                class="h-8 w-8 inline-flex items-center justify-center duration-100 cursor-pointer font-light select-none p-0 my-0.5"
+                [ngClass]="{
+              'bg-primary-500/10': day.isStartDate || day.isEndDate || hoveredDate() === day.date,
+              'rounded-l-md': day.isStartDate,
+              'rounded-r-md': day.isEndDate || hoveredDate() === day.date,
+            }"
+              >
+                <button
+                  class="h-full w-full inline-flex items-center justify-center rounded-md"
+                  [ngClass]="{
+              'text-gray-400': !day.isInCurrentMonth,
+              'text-gray-800': day.isInCurrentMonth,
+              'bg-primary-500 text-white':
+                day.isStartDate ||
+                day.isEndDate ||
+                (hoveredDate() === day.date),
+              'hover:bg-gray-100':
+                !day.isStartDate &&
+                !day.isEndDate &&
+                !day.isInRange &&
+                hoveredDate() !== day.date,
+              'bg-primary-500/10 rounded-none': day.isInRange,
+            }"
+                  (click)="selectDate(day.date)"
+                  (mouseover)="onCellHover(day.date)"
+                >
+                  {{ day.date.getDate() }}
+                </button>
+              </td>
+              }
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <!-- <div>
+        <div class="w-full flex justify-between items-center mb-1">
+          <div></div>
+          <div class="flex justify-center items-center gap-2">
+            <span class="text-gray-800 font-medium">{{
+              formattedMonthRight()
+            }}</span>
+            <span class="text-gray-800 font-medium">{{
+              formattedYearRight()
+            }}</span>
+          </div>
+          <button
+            class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
+            (click)="nextMonth()"
+          >
+            <span class="icon-[lucide--chevron-right]"></span>
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr class="w-full">
+              @for (day of WEEK_DAYS; track $index) {
+              <th
+                class="h-8 w-8 text-gray-500 font-light inline-flex items-center justify-center"
+              >
+                {{ day }}
+              </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (week of nextMonthWeeks(); track $index) {
+            <tr>
+              @for (day of week; track $index) {
+              <td
+                class="h-8 w-8 inline-flex items-center justify-center duration-100 cursor-pointer font-light select-none p-0 my-0.5"
+                [ngClass]="{
+              'bg-primary-500/10': day.isStartDate || day.isEndDate || hoveredDate() === day.date,
+              'rounded-l-md': day.isStartDate,
+              'rounded-r-md': day.isEndDate || hoveredDate() === day.date,
+            }"
+              >
+                <button
+                  [disabled]="day.isDisabled"
+                  class="h-full w-full inline-flex items-center justify-center rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  [ngClass]="{
+              'text-gray-400': !day.isInCurrentMonth,
+              'text-gray-800': day.isInCurrentMonth,
+              'bg-primary-500 text-white':
+                day.isStartDate ||
+                day.isEndDate ||
+                (hoveredDate() === day.date),
+              'hover:bg-gray-100':
+                !day.isStartDate &&
+                !day.isEndDate &&
+                !day.isInRange &&
+                hoveredDate() !== day.date,
+              'bg-primary-500/10 rounded-none': day.isInRange,
+            }"
+                  (click)="selectDate(day.date)"
+                  (mouseover)="onCellHover(day.date)"
+                >
+                  {{ day.date.getDate() }}
+                </button>
+              </td>
+              }
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div> -->
+    </div>
+  </div>
+</div>
