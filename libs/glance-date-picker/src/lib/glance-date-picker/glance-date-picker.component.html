@@ -7,18 +7,43 @@
   class="bg-white shadow-sm rounded-lg absolute top-0 left-0 text-sm hidden border border-neutral-200 z-50"
   [ngStyle]="{ width: width() + 'px' }"
 >
-  <div class="p-2">
-    <div class="flex gap-4">
-      <ng-container
-        [ngTemplateOutlet]="calendar"
-        [ngTemplateOutletContext]="{ weeks: leftMonth(), isLeft: true }"
-      ></ng-container>
-      @if (double()) {
-      <ng-container
-        [ngTemplateOutlet]="calendar"
-        [ngTemplateOutletContext]="{ weeks: rightMonth() }"
-      ></ng-container>
-      }
+  <div class="p-2 h-full">
+    <div class="flex justify-center h-full">
+      <div class="w-36 mr-2 pr-2 border-r border-neutral-200 flex flex-col">
+        <div class="flex flex-col w-full gap-1 pt-5">
+          @for (shortcut of SHORTCUTS(); track $index) {
+          <button
+            class="py-1 hover:bg-gray-50 cursor-pointer w-full pl-3 rounded-md text-left text-gray-700"
+            [ngClass]="{
+              'bg-gray-50 text-primary-500': selectedShortcut() === shortcut,
+            }"
+            (click)="onShortcutClick(shortcut)"
+          >
+            {{ shortcut.label }}
+          </button>
+          }
+          <div
+            class="py-1 w-full pl-3 rounded-md text-gray-700"
+            [ngClass]="{
+              'bg-gray-50 text-primary-500': !selectedShortcut() && selectedEndDate(),
+            }"
+          >
+            Custom
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-4">
+        <ng-container
+          [ngTemplateOutlet]="calendar"
+          [ngTemplateOutletContext]="{ weeks: leftMonth(), isLeft: true }"
+        ></ng-container>
+        @if (double()) {
+        <ng-container
+          [ngTemplateOutlet]="calendar"
+          [ngTemplateOutletContext]="{ weeks: rightMonth() }"
+        ></ng-container>
+        }
+      </div>
     </div>
   </div>
 </div>

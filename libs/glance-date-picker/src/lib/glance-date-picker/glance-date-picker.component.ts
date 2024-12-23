@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   input,
+  model,
   OnInit,
   output,
   signal,
@@ -17,7 +18,9 @@ import {
   isSameMonth,
   startOfMonth,
   startOfWeek,
+  subDays,
   subMonths,
+  subYears,
 } from 'date-fns';
 
 interface DatePickerDay {
@@ -29,6 +32,12 @@ interface DatePickerDay {
   isInCurrentMonth: boolean;
   isDisabled?: boolean;
   isHovered?: boolean;
+}
+
+interface DatePickerShortcut {
+  label: string;
+  start?: Date;
+  end?: Date;
 }
 
 @Component({
@@ -51,8 +60,40 @@ export class GlanceDatePickerComponent
     startOfMonth(addMonths(this.currentMonthDate(), 1))
   );
 
-  selectedStartDate = signal<Date | null>(null);
-  selectedEndDate = signal<Date | null>(null);
+  selectedStartDate = model<Date | null>(null);
+  selectedEndDate = model<Date | null>(null);
+
+  SHORTCUTS = signal<DatePickerShortcut[]>([
+    {
+      label: 'Last 7 days',
+      start: subDays(new Date(), 7),
+      end: new Date(),
+    },
+    {
+      label: 'Last 30 days',
+      start: subDays(new Date(), 30),
+      end: new Date(),
+    },
+    {
+      label: 'Last 60 days',
+      start: subDays(new Date(), 60),
+      end: new Date(),
+    },
+    {
+      label: 'Last 90 days',
+      start: subDays(new Date(), 90),
+      end: new Date(),
+    },
+    { label: 'Last Year', start: subYears(new Date(), 1), end: new Date() },
+  ]);
+
+  selectedShortcut = computed(() => {
+    return this.SHORTCUTS().find(
+      (shortcut) =>
+        isSameDay(this.selectedStartDate()!, shortcut.start!) &&
+        isSameDay(this.selectedEndDate()!, shortcut.end!)
+    );
+  });
 
   currentWeeks = computed(() => {
     const weeks: DatePickerDay[][] = [];
@@ -74,8 +115,12 @@ export class GlanceDatePickerComponent
           weekDates.push({
             date,
             isInRange: this.isDateInRange(date, this.hoveredDate()),
-            isStartDate: this.isDateStartDate(date),
-            isEndDate: this.isDateEndDate(date),
+            isStartDate:
+              !!this.selectedStartDate() &&
+              isSameDay(date, this.selectedStartDate()!),
+            isEndDate:
+              !!this.selectedEndDate() &&
+              isSameDay(date, this.selectedEndDate()!),
             isInCurrentMonth: isSameMonth(date, firstDayOfMonth),
             isDisabled:
               !!this.disableFrom() && isAfter(date, this.disableFrom()!),
@@ -197,24 +242,18 @@ export class GlanceDatePickerComponent
     return !!hoveredDate && isBefore(date, start) && isAfter(date, hoveredDate);
   }
 
-  private isDateStartDate(date: Date): boolean {
-    return date.getTime() === this.selectedStartDate()?.getTime();
-  }
-
-  private isDateEndDate(date: Date): boolean {
-    return date.getTime() === this.selectedEndDate()?.getTime();
-  }
-
-  private isDateSelected(date: Date): boolean {
-    return this.isDateStartDate(date) || this.isDateEndDate(date);
-  }
-
-  // Navigation methods
   nextMonth(): void {
     this.currentMonthDate.update((date) => addMonths(date, 1));
   }
 
   previousMonth(): void {
     this.currentMonthDate.update((date) => subMonths(date, 1));
+  }
+
+  onShortcutClick(shortcut: DatePickerShortcut): void {
+    if (shortcut.start && shortcut.end) {
+      this.selectedStartDate.set(shortcut.start);
+      this.selectedEndDate.set(shortcut.end);
+    }
   }
 }
