@@ -70,6 +70,11 @@ export class GlanceDatePickerComponent
       end: new Date(),
     },
     {
+      label: 'Last 14 days',
+      start: subDays(new Date(), 14),
+      end: new Date(),
+    },
+    {
       label: 'Last 30 days',
       start: subDays(new Date(), 30),
       end: new Date(),
