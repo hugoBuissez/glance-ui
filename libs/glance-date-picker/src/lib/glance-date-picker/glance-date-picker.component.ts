@@ -177,11 +177,6 @@ export class GlanceDatePickerComponent
 
   onRangeChange = output<Date[]>();
 
-  override ngOnInit() {
-    super.ngOnInit();
-    this.showPopper();
-  }
-
   selectDate(date: Date): void {
     if (this.selectedStartDate() && this.selectedEndDate()) {
       // a date range is already selected -> clear and select new start date
