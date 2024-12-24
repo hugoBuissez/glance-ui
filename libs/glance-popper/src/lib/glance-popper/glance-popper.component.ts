@@ -45,8 +45,8 @@ export class GlancePopperComponent implements OnInit {
   );
   private timer: number | undefined;
 
-  @Output() onShow = new EventEmitter<void>();
-  @Output() onHide = new EventEmitter<void>();
+  @Output() show = new EventEmitter<void>();
+  @Output() hide = new EventEmitter<void>();
 
   private cleanup: (() => void) | undefined;
 
@@ -108,7 +108,7 @@ export class GlancePopperComponent implements OnInit {
         bottom: '',
       });
 
-      this.arrow.nativeElement.style[staticSide!] = '-3px';
+      if (staticSide) this.arrow.nativeElement.style[staticSide] = '-3px';
     });
   }
 
@@ -133,7 +133,7 @@ export class GlancePopperComponent implements OnInit {
 
   protected showPopper() {
     this.timer = window.setTimeout(() => {
-      this.onShow.emit();
+      this.show.emit();
 
       animate(
         this.popper.nativeElement,
@@ -156,7 +156,7 @@ export class GlancePopperComponent implements OnInit {
 
   protected hidePopper() {
     clearTimeout(this.timer);
-    this.onHide.emit();
+    this.hide.emit();
     animate(
       this.popper.nativeElement,
       { visibility: 'hidden', opacity: 0, zIndex: -1000 },

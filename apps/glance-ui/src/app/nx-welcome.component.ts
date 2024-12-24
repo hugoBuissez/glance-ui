@@ -62,7 +62,6 @@ export class NxWelcomeComponent {
   last30Days = signal<Date[]>([subDays(new Date(), 30), new Date()]);
 
   onRangeChange(dates: Date[]) {
-    console.log(dates);
     this.dateRange.set({
       start: dates[0],
       end: dates[1],
