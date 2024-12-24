@@ -193,28 +193,6 @@ export class GlanceDatePickerComponent
 
       this.hoveredDate.set(null);
     }
-
-    // TODO: refactor this to use a single method
-    // this.currentWeeks.update(() =>
-    //   this.currentWeeks().map((week) =>
-    //     week.map((day) => ({
-    //       ...day,
-    //       isInRange: this.isDateInRange(day.date),
-    //       isStartDate: this.isDateStartDate(day.date),
-    //       isEndDate: this.isDateEndDate(day.date),
-    //     }))
-    //   )
-    // );
-    // this.nextMonthWeeks.update(() =>
-    //   this.nextMonthWeeks().map((week) =>
-    //     week.map((day) => ({
-    //       ...day,
-    //       isInRange: this.isDateInRange(day.date),
-    //       isStartDate: this.isDateStartDate(day.date),
-    //       isEndDate: this.isDateEndDate(day.date),
-    //     }))
-    //   )
-    // );
   }
 
   onCellHover(date: Date): void {
