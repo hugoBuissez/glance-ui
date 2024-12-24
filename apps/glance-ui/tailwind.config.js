@@ -9,9 +9,7 @@ module.exports = {
     join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
     join(__dirname, 'libs/**/!(*.stories|*.spec).{ts,html}'),
     ...createGlobPatternsForDependencies(__dirname),
-
-    // listen to node_modules
-    './node_modules/@glance-ui/date-picker/**/*.{js,mjs,ts,html}',
+    './node_modules/@glance-ui/**/*.{js,mjs,ts,html}',
   ],
   theme: {
     colors: {
