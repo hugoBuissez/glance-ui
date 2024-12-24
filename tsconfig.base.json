@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@glance-ui/date-picker": ["libs/glance-date-picker/src/index.ts"],
       "@glance-ui/dropdown": ["libs/glance-dropdown/src/index.ts"],
       "@glance-ui/popper": ["libs/glance-popper/src/index.ts"],
       "@glance-ui/tabs": ["libs/glance-tabs/src/index.ts"],
