@@ -6,10 +6,9 @@ import {
   model,
   OnInit,
   output,
-  signal,
   viewChildren,
 } from '@angular/core';
-import { CommonModule, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 export interface GlanceTab {
   label: string;
@@ -21,7 +20,7 @@ export interface GlanceTab {
 @Component({
   selector: 'g-tabs',
   standalone: true,
-  imports: [CommonModule, NgClass],
+  imports: [NgClass],
   templateUrl: './glance-tabs.component.html',
 })
 export class GlanceTabsComponent implements OnInit {
