@@ -16,7 +16,7 @@ export interface DateRange {
       <div class="mr-20">
         <g-date-picker
           placement="bottom-end"
-          (onRangeChange)="onRangeChange($event)"
+          (rangeChange)="onRangeChange($event)"
           [disableFrom]="today()"
           [selectedStartDate]="last30Days()[0]"
           [selectedEndDate]="last30Days()[1]"
