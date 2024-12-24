@@ -10,6 +10,7 @@ module.exports = {
     join(__dirname, 'libs/**/!(*.stories|*.spec).{ts,html}'),
     ...createGlobPatternsForDependencies(__dirname),
     './node_modules/@glance-ui/**/*.{js,mjs,ts,html}',
+    './node_modules/@glance-ui/**/*.{js,mjs,ts,html}',
   ],
   theme: {
     colors: {

@@ -2,6 +2,8 @@ import { Component, computed, signal } from '@angular/core';
 import { GDropdownItem } from '@glance-ui/dropdown';
 import { subDays } from 'date-fns';
 import { GTooltipComponent } from '@glance-ui/tooltip';
+import { GlanceDatePickerComponent } from '@glance-ui/date-picker';
+
 export interface DateRange {
   start: Date;
   end: Date;
@@ -10,12 +12,12 @@ export interface DateRange {
 @Component({
   selector: 'app-nx-welcome',
   standalone: true,
-  imports: [GTooltipComponent],
+  imports: [GTooltipComponent, GlanceDatePickerComponent],
   template: `
     <div class="h-screen w-screen p-5 flex justify-end ">
-      <!-- <g-date-picker
+      <g-date-picker
         placement="bottom-end"
-        (onRangeChange)="onRangeChange($event)"
+        (rangeChange)="onRangeChange($event)"
         [disableFrom]="today()"
         [selectedStartDate]="last30Days()[0]"
         [selectedEndDate]="last30Days()[1]"
@@ -30,7 +32,7 @@ export interface DateRange {
           <span class="icon-[lucide--calendar]"></span>
           <span class="text-sm">{{ formattedDate() }}</span>
         </button>
-      </g-date-picker> -->
+      </g-date-picker>
 
       <g-tooltip placement="bottom">
         <button toggle>

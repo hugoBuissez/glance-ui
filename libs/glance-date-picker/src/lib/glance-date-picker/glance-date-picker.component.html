@@ -12,15 +12,15 @@
       <div class="w-36 mr-2 pr-2 border-r border-neutral-200 flex flex-col">
         <div class="flex flex-col w-full gap-1 pt-5">
           @for (shortcut of SHORTCUTS(); track $index) {
-          <button
-            class="py-1 hover:bg-gray-50 cursor-pointer w-full pl-3 rounded-md text-left text-gray-700"
-            [ngClass]="{
+            <button
+              class="py-1 hover:bg-gray-50 cursor-pointer w-full pl-3 rounded-md text-left text-gray-700"
+              [ngClass]="{
               'bg-gray-50 text-primary-500': selectedShortcut() === shortcut,
             }"
-            (click)="onShortcutClick(shortcut)"
-          >
-            {{ shortcut.label }}
-          </button>
+              (click)="onShortcutClick(shortcut)"
+            >
+              {{ shortcut.label }}
+            </button>
           }
           <div
             class="py-1 w-full pl-3 rounded-md text-gray-700"
@@ -38,10 +38,10 @@
           [ngTemplateOutletContext]="{ weeks: leftMonth(), isLeft: true }"
         ></ng-container>
         @if (double()) {
-        <ng-container
-          [ngTemplateOutlet]="calendar"
-          [ngTemplateOutletContext]="{ weeks: rightMonth() }"
-        ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="calendar"
+            [ngTemplateOutletContext]="{ weeks: rightMonth() }"
+          ></ng-container>
         }
       </div>
     </div>
@@ -52,62 +52,62 @@
   <div>
     <div class="w-full flex justify-between items-center mb-1">
       @if (isLeft) {
-      <button
-        class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
-        (click)="previousMonth()"
-      >
-        <span class="icon-[lucide--chevron-left]"></span>
-      </button>
+        <button
+          class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
+          (click)="previousMonth()"
+        >
+          <span class="icon-[lucide--chevron-left]"></span>
+        </button>
       } @else {
-      <div></div>
+        <div></div>
       }
       <div class="flex justify-center items-center gap-2">
         <span class="text-gray-800 font-medium">{{
-          isLeft ? formattedMonthLeft() : formattedMonthRight()
-        }}</span>
+            isLeft ? formattedMonthLeft() : formattedMonthRight()
+          }}</span>
         <span class="text-gray-800 font-medium">{{
-          isLeft ? formattedYearLeft() : formattedYearRight()
-        }}</span>
+            isLeft ? formattedYearLeft() : formattedYearRight()
+          }}</span>
       </div>
       @if (!isLeft || !double()) {
-      <button
-        class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
-        (click)="nextMonth()"
-      >
-        <span class="icon-[lucide--chevron-right]"></span>
-      </button>
+        <button
+          class="bg-white text-gray-700 rounded-md p-1.5 flex flex-row items-center gap-x-2 hover:bg-gray-100 duration-100 border border-gray-300 shadow-sm"
+          (click)="nextMonth()"
+        >
+          <span class="icon-[lucide--chevron-right]"></span>
+        </button>
       } @else {
-      <div></div>
+        <div></div>
       }
     </div>
     <table>
       <thead>
-        <tr class="w-full">
-          @for (day of WEEK_DAYS; track $index) {
+      <tr class="w-full">
+        @for (day of WEEK_DAYS; track $index) {
           <th
             class="h-8 w-8 text-gray-500 font-light inline-flex items-center justify-center"
           >
             {{ day }}
           </th>
-          }
-        </tr>
+        }
+      </tr>
       </thead>
       <tbody>
         @for (week of weeks; track $index) {
-        <tr>
-          @for (day of week; track $index) {
-          <td
-            class="h-8 w-8 inline-flex items-center justify-center duration-100 cursor-pointer font-light select-none p-0 my-0.5"
-            [ngClass]="{
+          <tr>
+            @for (day of week; track $index) {
+              <td
+                class="h-8 w-8 inline-flex items-center justify-center duration-100 cursor-pointer font-light select-none p-0 my-0.5"
+                [ngClass]="{
           'bg-primary-500/10': day.isStartDate || day.isEndDate || day.isHovered,
           'rounded-l-md': day.isStartDate,
           'rounded-r-md': day.isEndDate || day.isHovered,
         }"
-          >
-            <button
-              [disabled]="day.isDisabled"
-              class="h-full w-full inline-flex items-center justify-center rounded-md disabled:text-gray-400 disabled:cursor-not-allowed"
-              [ngClass]="{
+              >
+                <button
+                  [disabled]="day.isDisabled"
+                  class="h-full w-full inline-flex items-center justify-center rounded-md disabled:text-gray-400 disabled:cursor-not-allowed"
+                  [ngClass]="{
           'text-gray-400': !day.isInCurrentMonth,
           'text-gray-800': day.isInCurrentMonth,
           'bg-primary-500 text-white':
@@ -123,14 +123,14 @@
             !day.isHovered,
           'bg-primary-500/10 rounded-none': day.isInRange,
         }"
-              (click)="selectDate(day.date)"
-              (mouseover)="onCellHover(day.date)"
-            >
-              {{ day.date.getDate() }}
-            </button>
-          </td>
-          }
-        </tr>
+                  (click)="selectDate(day.date)"
+                  (mouseover)="onCellHover(day.date)"
+                >
+                  {{ day.date.getDate() }}
+                </button>
+              </td>
+            }
+          </tr>
         }
       </tbody>
     </table>

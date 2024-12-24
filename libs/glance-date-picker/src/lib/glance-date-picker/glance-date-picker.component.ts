@@ -95,8 +95,8 @@ export class GlanceDatePickerComponent
   selectedShortcut = computed(() => {
     return this.SHORTCUTS().find(
       (shortcut) =>
-        isSameDay(this.selectedStartDate() ?? "", shortcut.start ?? "") &&
-        isSameDay(this.selectedEndDate() ?? "", shortcut.end ?? "")
+        isSameDay(this.selectedStartDate() ?? '', shortcut.start ?? '') &&
+        isSameDay(this.selectedEndDate() ?? '', shortcut.end ?? '')
     );
   });
 
@@ -122,15 +122,15 @@ export class GlanceDatePickerComponent
             isInRange: this.isDateInRange(date, this.hoveredDate()),
             isStartDate:
               !!this.selectedStartDate() &&
-              isSameDay(date, this.selectedStartDate() ?? ""),
+              isSameDay(date, this.selectedStartDate() ?? ''),
             isEndDate:
               !!this.selectedEndDate() &&
-              isSameDay(date, this.selectedEndDate() ?? ""),
+              isSameDay(date, this.selectedEndDate() ?? ''),
             isInCurrentMonth: isSameMonth(date, firstDayOfMonth),
             isDisabled:
-              !!this.disableFrom() && isAfter(date, this.disableFrom() ?? ""),
+              !!this.disableFrom() && isAfter(date, this.disableFrom() ?? ''),
             isHovered:
-              !!this.hoveredDate() && isSameDay(date, this.hoveredDate() ?? ""),
+              !!this.hoveredDate() && isSameDay(date, this.hoveredDate() ?? ''),
           });
         }
 
@@ -180,28 +180,18 @@ export class GlanceDatePickerComponent
   selectDate(date: Date): void {
     const selectedStartDate = this.selectedStartDate();
     const selectedEndDate = this.selectedEndDate();
-    if (selectedStartDate && selectedEndDate) {
-      // a date range is already selected -> clear and select new start date
-      this.selectedStartDate.set(date);
-      this.selectedEndDate.set(null);
-    } else if (!selectedStartDate) {
-      // no start nor end date selected -> select start date
-      this.selectedStartDate.set(date);
+
+    const isDateRangeSelected = selectedStartDate && selectedEndDate;
+    if (isDateRangeSelected || !selectedStartDate) {
+      this.setDateRange(date, null);
     } else {
-      // start date is selected but no end date -> select end date
       if (isBefore(date, selectedStartDate)) {
-        // if new end date is before start date -> swap them
-        this.selectedEndDate.set(selectedStartDate);
-        this.selectedStartDate.set(date);
+        this.setDateRange(date, selectedStartDate);
       } else {
-        // if new end date is after start date -> select it
-        this.selectedEndDate.set(date);
+        this.setDateRange(selectedStartDate, date);
       }
+
       this.hoveredDate.set(null);
-      this.rangeChange.emit([
-       selectedStartDate,
-        selectedEndDate ?? selectedStartDate,
-      ]);
     }
 
     // TODO: refactor this to use a single method
@@ -244,6 +234,23 @@ export class GlanceDatePickerComponent
     return !!hoveredDate && isBefore(date, start) && isAfter(date, hoveredDate);
   }
 
+  private setDateRange(startDate: Date | null, endDate: Date | null): void {
+    this.selectedStartDate.set(startDate);
+    this.selectedEndDate.set(endDate);
+
+    const dateRange: Date[] = [];
+
+    if (startDate && endDate) {
+      dateRange.push(startDate, endDate);
+    } else if (startDate) {
+      dateRange.push(startDate, startDate);
+    } else if (endDate) {
+      dateRange.push(endDate, endDate);
+    }
+
+    this.rangeChange.emit(dateRange);
+  }
+
   nextMonth(): void {
     this.currentMonthDate.update((date) => addMonths(date, 1));
   }
@@ -254,8 +261,7 @@ export class GlanceDatePickerComponent
 
   onShortcutClick(shortcut: DatePickerShortcut): void {
     if (shortcut.start && shortcut.end) {
-      this.selectedStartDate.set(shortcut.start);
-      this.selectedEndDate.set(shortcut.end);
+      this.setDateRange(shortcut.start, shortcut.end);
     }
   }
 }

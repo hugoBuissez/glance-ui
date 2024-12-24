@@ -132,7 +132,7 @@ export class GlancePopperComponent implements OnInit {
   }
 
   protected showPopper() {
-    this.timer = setTimeout(() => {
+    this.timer = window.setTimeout(() => {
       this.onShow.emit();
 
       animate(
