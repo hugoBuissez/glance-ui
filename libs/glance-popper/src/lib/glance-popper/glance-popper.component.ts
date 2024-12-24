@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   input,
+  model,
   OnInit,
   Output,
   ViewChild,
@@ -32,17 +33,17 @@ export class GlancePopperComponent implements OnInit {
   @ViewChild('popper') popper!: ElementRef;
   @ViewChild('arrow') arrow!: ElementRef;
 
-  mode = input<'hover' | 'click'>('click');
+  mode = model<'hover' | 'click'>('click');
   placement = input<Placement>('bottom-start');
   width = input<number | null>(null); // popper width in px, default is null
   fitWidth = input(false); // if true, the popper will fit the width of the toggle
-  withArrow = input(false);
+  withArrow = model(false);
 
   delay = input(0);
   private computedDelay = computed(() =>
     this.mode() === 'hover' ? this.delay() : 0
   );
-  private timer: any;
+  private timer: number | undefined;
 
   @Output() onShow = new EventEmitter<void>();
   @Output() onHide = new EventEmitter<void>();
@@ -122,7 +123,7 @@ export class GlancePopperComponent implements OnInit {
   protected onToggleClick() {
     if (this.mode() === 'click') {
       // if popper is already shown, hide it
-      if (this.popper.nativeElement.style.display === 'block') {
+      if (this.popper.nativeElement.style.visibility === 'visible') {
         this.hidePopper();
       } else {
         this.showPopper();
@@ -133,10 +134,16 @@ export class GlancePopperComponent implements OnInit {
   protected showPopper() {
     this.timer = setTimeout(() => {
       this.onShow.emit();
+
       animate(
         this.popper.nativeElement,
-        { display: 'block', scale: [0.8, 1], opacity: 1 },
-        { duration: 0.1 }
+        {
+          visibility: 'visible',
+          scale: [0.8, 1],
+          opacity: 1,
+          zIndex: 1000,
+        },
+        { duration: 0.12 }
       );
 
       this.cleanup = autoUpdate(
@@ -152,7 +159,7 @@ export class GlancePopperComponent implements OnInit {
     this.onHide.emit();
     animate(
       this.popper.nativeElement,
-      { display: 'none', opacity: 0 },
+      { visibility: 'hidden', opacity: 0, zIndex: -1000 },
       { duration: 0.1 }
     );
     this.cleanup?.();

@@ -24,5 +24,6 @@ export class GDropdownComponent extends GlancePopperComponent {
   protected onItemClick(item: GDropdownItem) {
     if (item.disabled) return;
     if (item.onClick) item.onClick();
+    this.hidePopper();
   }
 }
