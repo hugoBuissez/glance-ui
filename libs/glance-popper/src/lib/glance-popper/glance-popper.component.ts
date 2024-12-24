@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   input,
@@ -33,9 +34,15 @@ export class GlancePopperComponent implements OnInit {
 
   mode = input<'hover' | 'click'>('click');
   placement = input<Placement>('bottom-start');
-  width = input<number>(200); // popper width in px, default is 200px
+  width = input<number | null>(null); // popper width in px, default is null
   fitWidth = input(false); // if true, the popper will fit the width of the toggle
   withArrow = input(false);
+
+  delay = input(0);
+  private computedDelay = computed(() =>
+    this.mode() === 'hover' ? this.delay() : 0
+  );
+  private timer: any;
 
   @Output() onShow = new EventEmitter<void>();
   @Output() onHide = new EventEmitter<void>();
@@ -46,7 +53,10 @@ export class GlancePopperComponent implements OnInit {
     if (this.mode() === 'click') {
       // Hide popper when click outside the toggle
       fromEvent(document, 'click').subscribe((event) => {
-        if (!this.toggle.nativeElement.contains(event.target as Node)) {
+        if (
+          !this.toggle.nativeElement.contains(event.target as Node) &&
+          !this.popper.nativeElement.contains(event.target as Node)
+        ) {
           this.hidePopper();
         }
       });
@@ -121,20 +131,24 @@ export class GlancePopperComponent implements OnInit {
   }
 
   protected showPopper() {
-    this.onShow.emit();
-    animate(
-      this.popper.nativeElement,
-      { display: 'block', scale: [0.8, 1], opacity: 1 },
-      { duration: 0.1 }
-    );
-    this.cleanup = autoUpdate(
-      this.toggle.nativeElement,
-      this.popper.nativeElement,
-      this.update.bind(this)
-    );
+    this.timer = setTimeout(() => {
+      this.onShow.emit();
+      animate(
+        this.popper.nativeElement,
+        { display: 'block', scale: [0.8, 1], opacity: 1 },
+        { duration: 0.1 }
+      );
+
+      this.cleanup = autoUpdate(
+        this.toggle.nativeElement,
+        this.popper.nativeElement,
+        this.update.bind(this)
+      );
+    }, this.computedDelay());
   }
 
   protected hidePopper() {
+    clearTimeout(this.timer);
     this.onHide.emit();
     animate(
       this.popper.nativeElement,
