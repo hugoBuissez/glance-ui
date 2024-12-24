@@ -1,24 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  Placement,
-  computePosition,
-  offset,
-  flip,
-  shift,
-  autoUpdate,
-  arrow,
-} from '@floating-ui/dom';
-import { animate } from 'motion';
-import { fromEvent } from 'rxjs';
+import { Component, input } from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
 import { GlancePopperComponent } from '@glance-ui/popper';
 
 export type GDropdownItem = {
@@ -34,7 +15,7 @@ export type GDropdownItem = {
 @Component({
   selector: 'g-dropdown',
   standalone: true,
-  imports: [CommonModule],
+  imports: [NgStyle, NgClass],
   templateUrl: './glance-dropdown.component.html',
 })
 export class GDropdownComponent extends GlancePopperComponent {
