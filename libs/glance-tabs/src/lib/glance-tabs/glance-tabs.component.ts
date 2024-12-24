@@ -29,7 +29,7 @@ export class GlanceTabsComponent implements OnInit {
   tabs = input<GlanceTab[]>([]);
   activeTab = model<number>(0);
 
-  onActiveTabChange = output<number>();
+  activeTabChange = output<number>();
 
   underlineWidth = computed(() => {
     const currentTab = this.tabRefs()[this.activeTab()];
@@ -42,11 +42,11 @@ export class GlanceTabsComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.onActiveTabChange.emit(this.activeTab());
+    this.activeTabChange.emit(this.activeTab());
   }
 
   onTabClick(index: number) {
     this.activeTab.set(index);
-    this.onActiveTabChange.emit(index);
+    this.activeTabChange.emit(index);
   }
 }
