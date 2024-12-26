@@ -35,8 +35,16 @@ export class GlancePopperComponent implements OnInit {
 
   mode = model<GlancePopperMode>('click');
   placement = input<GlancePopperPlacement>('bottom-start');
-  width = input<number | null>(null); // popper width in px, default is null
-  fitWidth = input(false); // if true, the popper will fit the width of the toggle
+
+  /**
+   *  Popper width in px, default is null
+   */
+  width = input<number | null>(null);
+
+  /**
+   *  If true, the popper will fit the width of the toggle
+   */
+  fitWidth = input(false);
   withArrow = model(false);
 
   delay = input(0);

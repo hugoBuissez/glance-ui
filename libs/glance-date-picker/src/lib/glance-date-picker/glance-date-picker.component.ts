@@ -200,8 +200,13 @@ export class GlanceDatePickerComponent
     this.hoveredDate.set(date);
   }
 
-  // checks if date is in range between start and end date
-  // if hovered date is provided, it checks if date is in range between start and hovered date
+  /**
+   * Checks if date is in range between start and end date
+   * If hovered date is provided, it checks if date is in range between start and hovered date
+   * @param date
+   * @param hoveredDate
+   * @private
+   */
   private isDateInRange(date: Date, hoveredDate: Date | null): boolean {
     const start = this.selectedStartDate();
     const end = this.selectedEndDate() || hoveredDate;
