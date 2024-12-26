@@ -160,17 +160,13 @@ export class GlanceDatePickerComponent
   });
 
   leftMonth = computed(() => {
-    // take first 6 weeks of current month
-    return this.currentWeeks()
-      .slice(0, 6)
-      .filter((week) => week.some((day) => day.isInCurrentMonth));
+    const first6WeeksOfCurrentMonth = this.currentWeeks().slice(0, 6);
+    return first6WeeksOfCurrentMonth.filter(this.weekHasDaysInCurrentMonth);
   });
 
   rightMonth = computed(() => {
-    // take first 6 weeks of next month
-    return this.currentWeeks()
-      .slice(6, 12)
-      .filter((week) => week.some((day) => day.isInCurrentMonth));
+    const first6WeeksOfNextMonth = this.currentWeeks().slice(6, 12);
+    return first6WeeksOfNextMonth.filter(this.weekHasDaysInCurrentMonth);
   });
 
   hoveredDate = signal<Date | null>(null);
@@ -232,6 +228,10 @@ export class GlanceDatePickerComponent
     }
 
     this.rangeChange.emit(dateRange);
+  }
+
+  private weekHasDaysInCurrentMonth(week: DatePickerDay[]): boolean {
+    return week.some((day) => day.isInCurrentMonth);
   }
 
   onMonthChange(event: Event, isLeft: boolean): void {
