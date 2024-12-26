@@ -72,7 +72,7 @@ export class GlanceDatePickerComponent
   double = input<boolean>(true);
 
   currentMonthDate = signal<Date>(startOfMonth(new Date()));
-  nextMonthDate = computed(() =>
+  nextMonthDate = computed<Date>(() =>
     startOfMonth(addMonths(this.currentMonthDate(), 1))
   );
 
