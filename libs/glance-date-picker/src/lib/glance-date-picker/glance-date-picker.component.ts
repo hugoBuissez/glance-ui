@@ -16,6 +16,8 @@ import {
   isBefore,
   isSameDay,
   isSameMonth,
+  setMonth,
+  setYear,
   startOfMonth,
   startOfWeek,
   subDays,
@@ -51,14 +53,30 @@ export class GlanceDatePickerComponent
   implements OnInit
 {
   readonly WEEK_DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  readonly MONTHS = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
   disableFrom = input<Date | null>(null);
   double = input<boolean>(true);
 
-  private currentMonthDate = signal<Date>(startOfMonth(new Date()));
-  private nextMonthDate = computed(() =>
+  currentMonthDate = signal<Date>(startOfMonth(new Date()));
+  nextMonthDate = computed(() =>
     startOfMonth(addMonths(this.currentMonthDate(), 1))
   );
+
+  YEARS = this.getYears();
 
   selectedStartDate = model<Date | null>(null);
   selectedEndDate = model<Date | null>(null);
@@ -229,6 +247,18 @@ export class GlanceDatePickerComponent
     this.rangeChange.emit(dateRange);
   }
 
+  onMonthChange(event: Event, isLeft: boolean): void {
+    const month: number = +(event.target as HTMLSelectElement).value;
+    this.currentMonthDate.set(
+      setMonth(this.currentMonthDate(), isLeft ? month : month - 1)
+    );
+  }
+
+  onYearChange(event: Event): void {
+    const year: number = +(event.target as HTMLSelectElement).value;
+    this.currentMonthDate.set(setYear(this.currentMonthDate(), year));
+  }
+
   nextMonth(): void {
     this.currentMonthDate.update((date) => addMonths(date, 1));
   }
@@ -241,5 +271,14 @@ export class GlanceDatePickerComponent
     if (shortcut.start && shortcut.end) {
       this.setDateRange(shortcut.start, shortcut.end);
     }
+  }
+
+  private getYears(): number[] {
+    const todayYear = new Date().getFullYear();
+    const years: number[] = [];
+    for (let year = 2016; year <= todayYear + 2; year++) {
+      years.push(year);
+    }
+    return years;
   }
 }
