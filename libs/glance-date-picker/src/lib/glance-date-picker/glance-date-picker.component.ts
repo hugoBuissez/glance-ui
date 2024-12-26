@@ -76,12 +76,12 @@ export class GlanceDatePickerComponent
     startOfMonth(addMonths(this.currentMonthDate(), 1))
   );
 
-  YEARS = this.getYears();
+  readonly YEARS = this.getYears();
 
   selectedStartDate = model<Date | null>(null);
   selectedEndDate = model<Date | null>(null);
 
-  SHORTCUTS = signal<DatePickerShortcut[]>([
+  readonly SHORTCUTS = signal<DatePickerShortcut[]>([
     {
       label: 'Last 7 days',
       start: subDays(new Date(), 7),
