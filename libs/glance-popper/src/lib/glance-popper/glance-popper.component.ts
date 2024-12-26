@@ -33,8 +33,8 @@ export class GlancePopperComponent implements OnInit {
   @ViewChild('popper') popper!: ElementRef;
   @ViewChild('arrow') arrow!: ElementRef;
 
-  mode = model<'hover' | 'click'>('click');
-  placement = input<Placement>('bottom-start');
+  mode = model<GlancePopperMode>('click');
+  placement = input<GlancePopperPlacement>('bottom-start');
   width = input<number | null>(null); // popper width in px, default is null
   fitWidth = input(false); // if true, the popper will fit the width of the toggle
   withArrow = model(false);
@@ -165,3 +165,6 @@ export class GlancePopperComponent implements OnInit {
     this.cleanup?.();
   }
 }
+
+export type GlancePopperMode = 'hover' | 'click';
+export type GlancePopperPlacement = Placement;
