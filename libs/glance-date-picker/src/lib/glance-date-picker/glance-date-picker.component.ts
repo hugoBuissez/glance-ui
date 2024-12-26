@@ -173,24 +173,6 @@ export class GlanceDatePickerComponent
       .filter((week) => week.some((day) => day.isInCurrentMonth));
   });
 
-  formattedMonthLeft = computed(() => {
-    const fmt = this.currentMonthDate().toLocaleString('default', {
-      month: 'long',
-    });
-    return fmt.charAt(0).toUpperCase() + fmt.slice(1);
-  });
-
-  formattedYearLeft = computed(() => this.currentMonthDate().getFullYear());
-
-  formattedMonthRight = computed(() => {
-    const fmt = this.nextMonthDate().toLocaleString('default', {
-      month: 'long',
-    });
-    return fmt.charAt(0).toUpperCase() + fmt.slice(1);
-  });
-
-  formattedYearRight = computed(() => this.nextMonthDate().getFullYear());
-
   hoveredDate = signal<Date | null>(null);
 
   rangeChange = output<Date[]>();
