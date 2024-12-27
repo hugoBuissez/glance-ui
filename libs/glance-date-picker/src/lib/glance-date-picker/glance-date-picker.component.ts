@@ -34,6 +34,7 @@ interface DatePickerDay {
   isInCurrentMonth: boolean;
   isDisabled?: boolean;
   isHovered?: boolean;
+  isToday?: boolean;
 }
 
 interface DatePickerShortcut {
@@ -68,6 +69,7 @@ export class GlanceDatePickerComponent
     'December',
   ];
 
+  today = signal<Date | null>(new Date());
   disableFrom = input<Date | null>(null);
   double = input<boolean>(true);
 
@@ -149,6 +151,7 @@ export class GlanceDatePickerComponent
               !!this.disableFrom() && isAfter(date, this.disableFrom() ?? ''),
             isHovered:
               !!this.hoveredDate() && isSameDay(date, this.hoveredDate() ?? ''),
+            isToday: isSameDay(date, this.today()!),
           });
         }
 

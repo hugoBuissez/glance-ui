@@ -146,6 +146,7 @@
             !day.isDisabled &&
             !day.isHovered,
           'bg-primary-500/10 rounded-none': day.isInRange,
+          'text-primary-500': day.isToday && !day.isStartDate && !day.isEndDate,
         }"
               (click)="selectDate(day.date)"
               (mouseover)="onCellHover(day.date)"
