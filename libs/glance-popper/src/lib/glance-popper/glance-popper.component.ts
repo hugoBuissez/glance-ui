@@ -151,7 +151,7 @@ export class GlancePopperComponent implements OnInit {
           opacity: 1,
           zIndex: 1000,
         },
-        { duration: 0.12 }
+        { duration: 0.25, type: 'spring', bounce: 0.4 }
       );
 
       this.cleanup = autoUpdate(
