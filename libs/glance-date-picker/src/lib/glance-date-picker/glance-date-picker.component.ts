@@ -68,6 +68,7 @@ export class GlanceDatePickerComponent
     'November',
     'December',
   ];
+  readonly WEEKS_TO_GENERATE = 6;
 
   today = signal<Date | null>(new Date());
   disableFrom = input<Date | null>(null);
@@ -120,9 +121,12 @@ export class GlanceDatePickerComponent
     );
   });
 
-  currentWeeks = computed(() => {
+  currentWeeks = computed(() => this.generateDays());
+
+  private generateDays() {
     const weeks: DatePickerDay[][] = [];
-    for (let month = 0; month < (this.double() ? 2 : 1); month++) {
+    const nbMonthsToGenerate = this.double() ? 2 : 1;
+    for (let month = 0; month < nbMonthsToGenerate; month++) {
       const firstDayOfMonth = startOfMonth(
         addMonths(this.currentMonthDate(), month)
       );
@@ -131,36 +135,59 @@ export class GlanceDatePickerComponent
       });
 
       // Generate 6 weeks to ensure we have enough rows
-      for (let week = 0; week < 6; week++) {
-        const weekDates: DatePickerDay[] = [];
-
-        // Generate 7 days for each week
-        for (let day = 0; day < 7; day++) {
-          const date = addDays(firstDayOfWeek, week * 7 + day);
-          weekDates.push({
-            date,
-            isInRange: this.isDateInRange(date, this.hoveredDate()),
-            isStartDate:
-              !!this.selectedStartDate() &&
-              isSameDay(date, this.selectedStartDate() ?? ''),
-            isEndDate:
-              !!this.selectedEndDate() &&
-              isSameDay(date, this.selectedEndDate() ?? ''),
-            isInCurrentMonth: isSameMonth(date, firstDayOfMonth),
-            isDisabled:
-              !!this.disableFrom() && isAfter(date, this.disableFrom() ?? ''),
-            isHovered:
-              !!this.hoveredDate() && isSameDay(date, this.hoveredDate() ?? ''),
-            isToday: isSameDay(date, this.today()!),
-          });
-        }
-
-        weeks.push(weekDates);
+      for (let week = 0; week < this.WEEKS_TO_GENERATE; week++) {
+        weeks.push(
+          this.generateWeekFromOffset(firstDayOfWeek, firstDayOfMonth, week)
+        );
       }
     }
-
     return weeks;
-  });
+  }
+
+  private generateWeekFromOffset(
+    firstDayOfWeek: Date,
+    firstDayOfMonth: Date,
+    weekOffset: number
+  ) {
+    const weekDates: DatePickerDay[] = [];
+
+    for (let day = 0; day < 7; day++) {
+      weekDates.push(
+        this.generateDayFromOffset(
+          firstDayOfWeek,
+          firstDayOfMonth,
+          weekOffset,
+          day
+        )
+      );
+    }
+    return weekDates;
+  }
+
+  private generateDayFromOffset(
+    firstDayOfWeek: Date,
+    firstDayOfMonth: Date,
+    weekOffset: number,
+    dayOffset: number
+  ): DatePickerDay {
+    const date = addDays(firstDayOfWeek, weekOffset * 7 + dayOffset);
+    return {
+      date,
+      isInRange: this.isDateInRange(date, this.hoveredDate()),
+      isStartDate:
+        !!this.selectedStartDate() &&
+        isSameDay(date, this.selectedStartDate() ?? ''),
+      isEndDate:
+        !!this.selectedEndDate() &&
+        isSameDay(date, this.selectedEndDate() ?? ''),
+      isInCurrentMonth: isSameMonth(date, firstDayOfMonth),
+      isDisabled:
+        !!this.disableFrom() && isAfter(date, this.disableFrom() ?? ''),
+      isHovered:
+        !!this.hoveredDate() && isSameDay(date, this.hoveredDate() ?? ''),
+      isToday: isSameDay(date, this.today()!),
+    };
+  }
 
   leftMonth = computed(() => {
     const first6WeeksOfCurrentMonth = this.currentWeeks().slice(0, 6);
